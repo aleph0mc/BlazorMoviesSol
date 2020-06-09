@@ -1,0 +1,6 @@
+﻿<input type="text" @attributes="AdditionalParameters" />
+
+@code {
+    //Gives the possibility to use as many undeclared params as we need
+    [Parameter(CaptureUnmatchedValues = true)] public IDictionary<string, object> AdditionalParameters { get; set; }
+}
