@@ -1,47 +1,37 @@
 ﻿@page "/"
-@*@using BlazorMovies.Client.Helpers <== no need to be here, find it in the _Imports.razor file  *@
 
-<p>Hello, @name.ToUpper()</p>
-<p>Hello, @CustomToUpper(name) &lt;== Using a function</p>
-<p>Let's add 2 + 2 = @(2 + 2) &lt;== Using an explicit razor expression in round brackets @@(2 + 2) </p>
-
-<p>An event on a button</p>
-<button @onclick="@(() => Console.WriteLine("I've been clicked!"))">Click me</button>
-<br />
-<br />
-<button @onclick="@WriteInLog">Click me</button>
-<br />
-<br />
-@StringUtilitiesLocal.CustomToUpper(name) &lt;== ToUpper method from local class
-<br />
-<br />
-@StringUtilities.CustomToUpper(name) &lt;== ToUpper method from Helpers class
-<br />
 <div>
     <h3>Movie</h3>
-    <p>Title: <b>@spiderman.Title</b></p>
-    <p>Release Date: <b>@spiderman.ReleaseDate.ToString("dd MMM yyyy")</b></p>
+    <MoviesList Movies="movies" />
+</div>
+
+<div>
+    <h3>Create a movie</h3>
+    <br />
+    @*<DummyTextbox placeholder="movie name" disabled="true" />*@
+    @* using attributes dictionary *@
+    <DummyTextbox @attributes="additionalParameters" />
 </div>
 
 @code{
-    string name = "Milko";
 
-    string CustomToUpper(string value) => value.ToUpper();
+    private IDictionary<string, object> additionalParameters = new Dictionary<string, object>
+                                 {
+                                     { "placeholder", "new movie title" },
+                                     { "disabled", "true" }
+                                 };
 
-    void WriteInLog()
+
+    private List<Movie> movies;
+
+    protected override void OnInitialized()
     {
-        Console.WriteLine("I've been clicked! (from method)");
+        movies = new List<Movie>
+        {
+            new Movie {Title = "Spider-Man: Far From Home", ReleaseDate = new DateTime(2019, 7, 2)  },
+            new Movie {Title = "Hulk", ReleaseDate = new DateTime(2003, 11, 23)  },
+            new Movie {Title = "Terminator", ReleaseDate = new DateTime(1990, 7, 16)  }
+        };
     }
-
-    public class StringUtilitiesLocal
-    {
-        public static string CustomToUpper(string value) => value.ToUpper();
-    }
-
-    Movie spiderman = new Movie
-    {
-        Title = "Spider-Man: Far From Home",
-        ReleaseDate = new DateTime(2019, 7, 2)
-    };
 
 }

@@ -1,0 +1,26 @@
+﻿@if (null == Movies)
+{
+    @*<text>Loading...</text>*@
+}
+else if (0 == Movies.Count)
+{
+    <text>There are no records to show</text>
+}
+else
+{
+    <input type="checkbox" @onchange="@(() => displayButton = !displayButton)" />
+    <span style="margin-left: 10px;">Show delete button</span>
+
+    @foreach (var movie in Movies)
+    {
+        <IndividualMovie Movie="movie" DisplayButton="@displayButton" />
+    }
+}
+
+@code {
+
+    //The following becomes a parameter for this component
+    [Parameter] public List<Movie> Movies { get; set; }
+
+    bool displayButton = false;
+}
