@@ -1,0 +1,39 @@
+﻿@page "/countertest"
+@inject SingletonService ss
+@inject TransientService ts
+
+<h1>Counter</h1>
+
+<p>Current count: @currentCount</p>
+<p>Singleton value (Current value * 3): @ss.Value</p>
+<p>Transient value: (Current value * 2) @ts.Value</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+<input type="number" @bind="currentCount" name="name" />
+
+<MoviesList Movies="movies" />
+
+@code {
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+
+        ss.Value = currentCount * 3;
+        ts.Value = currentCount * 2;
+    }
+
+    private List<Movie> movies;
+
+    protected override void OnInitialized()
+    {
+        movies = new List<Movie>
+{
+            new Movie {Title = "Contact", ReleaseDate = new DateTime(1992, 7, 2)  },
+            new Movie {Title = "2001 A Space Odissey", ReleaseDate = new DateTime(1968, 11, 23)  },
+        };
+    }
+
+}

@@ -1,4 +1,4 @@
-﻿@page "/"
+﻿@page "/refcomponent"
 @inject SingletonService ss
 @inject IRepository repo
 
@@ -6,12 +6,15 @@
 
 <div>
     <h3>Movie</h3>
-    <MoviesListGen Movies="movies" />
+    <MoviesListGen @ref="mgl" Movies="movies" />
 </div>
 
 <button @onclick="AddNewMovie">Add a new movie</button>
 
 @code{
+
+    //The component to be referenced
+    private MoviesListGen mgl;
 
     private List<Movie> movies;
 
@@ -32,6 +35,9 @@
 
     private void AddNewMovie()
     {
+        //Referenced component
+        mgl.TestMethod("This is invoked from RefComponent.razor");
+
         movies.Add(new Movie { Title = "Movie added", ReleaseDate = DateTime.Today });
     }
 
