@@ -1,0 +1,47 @@
+﻿@page "/test2"
+
+<div>
+    <h3>Movie</h3>
+    <MoviesList Movies="movies">
+        @*<span style="color: red">This is loading...</span>
+        <img src="https://miro.medium.com/max/978/0*cWpsf9D3g346Va20.gif" />*@
+
+        <NullTemplate><span style="color: red">This is loading...</span></NullTemplate>
+        @*<EmptyTemplate><span style="color: blue">This is nothing to show...</span></EmptyTemplate>*@
+
+    </MoviesList>
+</div>
+
+<div>
+    <h3>Create a movie</h3>
+    <br />
+    @*<DummyTextbox placeholder="movie name" disabled="true" />*@
+    @* using attributes dictionary *@
+    <DummyTextbox @attributes="additionalParameters" />
+</div>
+
+@code{
+
+    private IDictionary<string, object> additionalParameters = new Dictionary<string, object>
+                             {
+                                     { "placeholder", "new movie title" },
+                                     { "disabled", "true" }
+                                 };
+
+
+    private List<Movie> movies;
+
+    protected override void OnInitialized()
+    {
+        // To test when null
+        //movies = null;
+
+        movies = new List<Movie>
+        {
+            //new Movie {Title = "Spider-Man: Far From Home", ReleaseDate = new DateTime(2019, 7, 2)  },
+            //new Movie {Title = "Hulk", ReleaseDate = new DateTime(2003, 11, 23)  },
+            //new Movie {Title = "Terminator", ReleaseDate = new DateTime(1990, 7, 16)  }
+        };
+    }
+
+}
