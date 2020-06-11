@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static BlazorMovies.Client.Shared.MainLayout;
 
 namespace BlazorMovies.Client.Pages
 {
@@ -13,6 +14,15 @@ namespace BlazorMovies.Client.Pages
         [Inject] public SingletonService ss { get; set; }
         [Inject] public TransientService ts { get; set; }
         [Inject] public IJSRuntime js { get; set; }
+
+        /// <summary>
+        /// It's possible to use in this component the cascading parameters declared in the MainLayout component
+        /// </summary>
+        //[CascadingParameter(Name = "Color")] public string Color { get; set; }
+        //[CascadingParameter(Name = "Size")] public string Size { get; set; }
+
+        //Using cascading parameters class
+        [CascadingParameter] public AppState AppState { get; set; }
 
         private int currentCount = 0;
         private static int currentCountStatic = 0;
