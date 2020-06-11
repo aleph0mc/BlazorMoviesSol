@@ -10,25 +10,11 @@
     </div>
 
     <div class="content px-4">
-        @* Cascading values can be accessed by all the childer of a component at any level *@
-        @* For the MainLayout being the ancestor of all the components a value declare here can be accessed by all the childern components *@
-        @* But whern there are meny cascading parameters better to create a class *@
-        @*<CascadingValue Value="Color" Name="Color">
-                <CascadingValue Value="Size" Name="Size">
-                    @Body
-                </CascadingValue>
-            </CascadingValue>*@
-        <CascadingValue Value="@appState">
-            @Body
-        </CascadingValue>
+        @Body
     </div>
-    <p style="color: red; font-weight:bold">Footer Test from MainLayout.razor</p>
 </div>
 
-@code{
-
-    //private string Color = "red";
-    //private string Size = "45px";
+@code {
 
     // If there are many cascading parameters to use it is better to define a class
     public class AppState

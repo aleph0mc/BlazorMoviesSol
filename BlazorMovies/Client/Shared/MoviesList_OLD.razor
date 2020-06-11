@@ -1,0 +1,67 @@
+﻿@if (null == Movies)
+{
+    @*<text>Loading...</text>*@
+    @*<img src="https://miro.medium.com/max/978/0*cWpsf9D3g346Va20.gif" />*@
+    //The following will be shown when Movies is null
+    @*@ChildContent*@
+
+    if (null != NullTemplate)
+    {
+        @NullTemplate
+    }
+    else
+    {
+        //Default content
+        <img src="https://miro.medium.com/max/978/0*cWpsf9D3g346Va20.gif" />
+    }
+
+}
+else if (0 == Movies.Count)
+{
+    @*<text>There are no records to show</text>*@
+
+    //Another templarte when the count is zero
+    if (null != EmptyTemplate)
+    {
+        @EmptyTemplate
+    }
+    else
+    {
+        <text>There are no records to show</text>
+    }
+}
+else
+{
+    <input type="checkbox" @onchange="@(() => displayButton = !displayButton)" />
+    <span style="margin-left: 10px;">Show delete button</span>
+    <br />
+    <input type="checkbox" @bind="displayButton" />
+    <span style="margin-left: 10px;">Show delete button with databind</span>
+
+    @foreach (var movie in Movies)
+    {
+        <IndividualMovie Movie="movie" DisplayButton="@displayButton" DeleteMovie="DeleteMovie" />
+    }
+}
+
+@code {
+
+    //The following becomes a parameter for this component
+    [Parameter] public List<Movie> Movies { get; set; }
+
+    //Multiple render fragments
+    [Parameter] public RenderFragment NullTemplate { get; set; }
+    [Parameter] public RenderFragment EmptyTemplate { get; set; }
+
+
+    //The name ChildContent is a convention when there is one render fragment
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    bool displayButton = false;
+
+    //Delegate method
+    private void DeleteMovie(Movie movie)
+    {
+        Movies.Remove(movie);
+    }
+}

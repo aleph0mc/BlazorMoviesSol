@@ -1,0 +1,32 @@
+﻿@page "/counter_OLD"
+@*<h1 style="color: @Color; font-size: @Size">Counter</h1>*@
+<h1 style="color: @AppState.ColorClass; font-size: @AppState.SizeClass">Counter</h1>
+
+<div style="flex">
+    <div styler="width: 150px">
+        <select @bind="AppState.ColorClass" class="form-control" style="margin-top: 15px;">
+            <option value="red">Red</option>
+            <option value="navy">Navy</option>
+            <option value="yellow">Yellow</option>
+        </select>
+    </div>
+
+    <div styler="width: 150px">
+        <select @bind="AppState.SizeClass" class="form-control" style="margin-top: 15px;">
+            <option value="20px">20px</option>
+            <option value="40px">40px</option>
+            <option value="60px">60px</option>
+        </select>
+    </div>
+
+</div>
+
+<p>Current count: @currentCount</p>
+<p>Singleton value (Current value * 3): @ss.Value</p>
+<p>Transient value: (Current value * 2) @ts.Value</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<br />
+<button class="btn btn-primary" @onclick="IncrementCountJavascript">Click me JavaScript</button>
+<br />
+<input type="number" @bind="currentCount" name="name" />

@@ -1,0 +1,43 @@
+﻿@inherits LayoutComponentBase
+
+<div class="sidebar">
+    <NavMenu />
+</div>
+
+<div class="main">
+    <div class="top-row px-4">
+        <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
+    </div>
+
+    <div class="content px-4">
+        @* Cascading values can be accessed by all the childer of a component at any level *@
+        @* For the MainLayout being the ancestor of all the components a value declare here can be accessed by all the childern components *@
+        @* But whern there are meny cascading parameters better to create a class *@
+        @*<CascadingValue Value="Color" Name="Color">
+                <CascadingValue Value="Size" Name="Size">
+                    @Body
+                </CascadingValue>
+            </CascadingValue>*@
+        <CascadingValue Value="@appState">
+            @Body
+        </CascadingValue>
+    </div>
+    <p style="color: red; font-weight:bold">Footer Test from MainLayout.razor</p>
+</div>
+
+@code{
+
+    //private string Color = "red";
+    //private string Size = "45px";
+
+    // If there are many cascading parameters to use it is better to define a class
+    public class AppState
+    {
+        public string ColorClass { get; set; } = "navy";
+        public string SizeClass { get; set; } = "45px";
+    }
+
+    //Then we instantiate the AppState class
+    AppState appState = new AppState();
+
+}
