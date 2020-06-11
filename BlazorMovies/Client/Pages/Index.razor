@@ -1,21 +1,18 @@
 ﻿@page "/"
-@using static BlazorMovies.Client.Shared.MainLayout;
+@page "/index"
 
-@inject SingletonService ss
+@* Index can be accessed as http://localhost or http://localhost/index *@
+
 @inject IRepository repo
-
-<p style="color: @AppState.ColorClass; font-size: @AppState.SizeClass">Singleton value (Current value * 3): @ss.Value (the value through all the app)</p>
 
 <div>
     <h3>Movie</h3>
-    <MoviesListGen Movies="movies" />
+    @*<MoviesListGen Movies="movies" />*@
+
+    <MoviesList Movies="movies" />
 </div>
 
-<button @onclick="AddNewMovie">Add a new movie</button>
-
 @code{
-
-    [CascadingParameter] public AppState AppState { get; set; }
 
     private List<Movie> movies;
 
@@ -23,20 +20,7 @@
     {
         await Task.Delay(0);
 
-        //movies = new List<Movie>
-        //{
-        //    new Movie {Title = "Spider-Man: Far From Home", ReleaseDate = new DateTime(2019, 7, 2)  },
-        //    new Movie {Title = "Hulk", ReleaseDate = new DateTime(2003, 11, 23)  },
-        //    new Movie {Title = "Terminator", ReleaseDate = new DateTime(1990, 7, 16)  }
-        //};
-
         //From Repository service
         movies = repo.GetMovies();
     }
-
-    private void AddNewMovie()
-    {
-        movies.Add(new Movie { Title = "Movie added", ReleaseDate = DateTime.Today });
-    }
-
 }
