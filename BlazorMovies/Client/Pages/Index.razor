@@ -1,8 +1,10 @@
 ﻿@page "/"
+@using static BlazorMovies.Client.Shared.MainLayout;
+
 @inject SingletonService ss
 @inject IRepository repo
 
-<p>Singleton value (Current value * 3): @ss.Value (the value through all the app)</p>
+<p style="color: @AppState.ColorClass; font-size: @AppState.SizeClass">Singleton value (Current value * 3): @ss.Value (the value through all the app)</p>
 
 <div>
     <h3>Movie</h3>
@@ -12,6 +14,8 @@
 <button @onclick="AddNewMovie">Add a new movie</button>
 
 @code{
+
+    [CascadingParameter] public AppState AppState { get; set; }
 
     private List<Movie> movies;
 
