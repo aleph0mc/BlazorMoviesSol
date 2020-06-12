@@ -2,9 +2,28 @@
 
 <h3>EditGenre</h3>
 
+@if (null != genre)
+{
+    <GenreForm Genre="genre" OnValidSubmit="Edit" />
+}
+
 @code {
 
     [Parameter] public int GenreId { get; set; }
 
+    private Genre genre;
+
+    protected override void OnInitialized()
+    {
+        genre = new Genre { Id = GenreId, Name = "Temp Placeholder" };
+    }
+
+
+    private void Edit()
+    {
+        Console.WriteLine("Edit method");
+        Console.WriteLine(genre.Id);
+        Console.WriteLine(genre.Name);
+    }
 
 }
