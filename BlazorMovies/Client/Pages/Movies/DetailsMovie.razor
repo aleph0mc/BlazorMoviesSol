@@ -1,7 +1,16 @@
-﻿@page "/movies/"
+﻿@page "/movies/{MovieId:int}"
+@page "/movies/{MovieId:int}/{MovieName}"
+@* There's no need of type definition for strings in the route above *@
 
 <h3>DetailsMovie</h3>
 
 @code {
+    [Parameter] public int MovieId { get; set; }
+    [Parameter] public string MovieName { get; set; }
 
+    protected override void OnInitialized()
+    {
+        Console.WriteLine($"The Id of the movie is {MovieId}");
+        Console.WriteLine($"The Id of the movie is {MovieName}");
+    }
 }

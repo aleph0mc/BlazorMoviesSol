@@ -18,6 +18,6 @@
 
     protected override void OnInitialized()
     {
-        movieUrl = $"movies/";
+        movieUrl = $"movies/{Movie.Id}/{Movie.Title.Replace(" ", "_")}";
     }
 }
