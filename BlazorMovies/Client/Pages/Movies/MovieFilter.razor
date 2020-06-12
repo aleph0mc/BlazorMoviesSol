@@ -5,7 +5,7 @@
 
 <div class="form-inline mb-2">
     <label for="title" class="sr-only">Title</label>
-    <input type="text" class="form-control" id="title" placeholder="Movie Title" @bind-value="title"
+    <input type="text" class="form-control" id="title" placeholder="Movie Title" @bind-value="@title"
            @bind-value:event="oninput" @onkeypress="@((KeyboardEventArgs e) => TitleKeyPressed(e))" />
 
     <div class="form-group mx-sm-3 mb-2">

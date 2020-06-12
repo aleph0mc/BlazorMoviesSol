@@ -1,0 +1,61 @@
+﻿@using System.IO
+@using Blazor.FileReader
+@inject IFileReaderService frs
+
+<div>
+    <label>@Label</label>
+    <div>
+        <input type="file" @ref="inputElement" @onchange="ImageFileSelected" accept=".jpg,.jpeg,.png" />
+    </div>
+</div>
+<div>
+    @if (null != imageBase64)
+    {
+        <div>
+            <div style="margin: 10px">
+                <img src="data:image/jpeg;base64, @imageBase64" style="width: 400px" />
+            </div>
+        </div>
+    }
+
+    @if (null != ImageUrl)
+    {
+        <div>
+            <div style="margin: 10px">
+                <img src="@ImageUrl" style="width: 400px" />
+            </div>
+        </div>
+    }
+
+</div>
+
+@code {
+
+    [Parameter] public string Label { get; set; } = "Image";
+    [Parameter] public string ImageUrl { get; set; }
+    [Parameter] public EventCallback<string> OnSelectedImage { get; set; }
+    ElementReference inputElement;
+
+
+    private string imageBase64;
+
+    private async Task ImageFileSelected()
+    {
+        foreach (var file in await frs.CreateReference(inputElement).EnumerateFilesAsync())
+        {
+            using (MemoryStream ms = await file.CreateMemoryStreamAsync(4 * 1024))
+            {
+                var imageBytes = ms.ToArray();
+
+                imageBase64 = Convert.ToBase64String(imageBytes);
+
+                await OnSelectedImage.InvokeAsync(imageBase64);
+
+                ImageUrl = null;
+
+                //Notify to component to be rendered in order to show the image in base64
+                StateHasChanged();
+            }
+        }
+    }
+}
