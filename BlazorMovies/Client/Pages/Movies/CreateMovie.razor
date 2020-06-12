@@ -1,7 +1,17 @@
 ﻿@page "/movies/create"
+@inject NavigationManager nm
+
 
 <h3>Create movie</h3>
 
+<button class="btn btn-primary" @onclick="CreateNewMovie">Create Movie</button>
+
 @code {
 
+    private void CreateNewMovie()
+    {
+        // Creating movie...
+        Console.WriteLine("Current Uri: {0}", nm.Uri);
+        nm.NavigateTo("movies/1");
+    }
 }

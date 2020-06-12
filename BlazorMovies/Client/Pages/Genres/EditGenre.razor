@@ -1,7 +1,10 @@
-﻿@page "/genres/edit"
+﻿@page "/genres/edit/{GenreId:int}"
 
 <h3>EditGenre</h3>
 
 @code {
+
+    [Parameter] public int GenreId { get; set; }
+
 
 }
