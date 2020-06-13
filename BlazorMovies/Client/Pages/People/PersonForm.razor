@@ -43,16 +43,13 @@
             imageUrl = Person.Picture;
             Person.Picture = null;
         }
-
-
     }
 
     private void PictureSelected(string imageBase64)
     {
         Person.Picture = imageBase64;
         imageUrl = null;
-
-        Console.WriteLine(imageBase64);
+        //Console.WriteLine(imageBase64);
     }
 
 }

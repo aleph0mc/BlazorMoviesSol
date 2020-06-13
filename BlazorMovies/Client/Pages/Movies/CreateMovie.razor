@@ -4,14 +4,24 @@
 
 <h3>Create movie</h3>
 
-<button class="btn btn-primary" @onclick="CreateNewMovie">Create Movie</button>
+<MovieForm Movie="movie" OnValidSubmit="Create" SelectedGenres="@selectedGenres" NotSelectedGenres="@notSelectedGenres" />
 
 @code {
 
-    private void CreateNewMovie()
+    Movie movie = new Movie();
+
+    private List<Genre> notSelectedGenres = new List<Genre>
+{
+        new Genre { Id= 1, Name = "Action" },
+        new Genre { Id= 1, Name = "Comedy" },
+        new Genre { Id= 1, Name = "Drama" }
+    };
+
+    // We set to an empty list though this is performed as well in the component
+    private List<Genre> selectedGenres = new List<Genre>();
+
+    private void Create()
     {
-        // Creating movie...
-        Console.WriteLine("Current Uri: {0}", nm.Uri);
-        nm.NavigateTo("movies/1");
+        Console.WriteLine("Creating movie...");
     }
 }

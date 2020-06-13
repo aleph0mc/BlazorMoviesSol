@@ -1,6 +1,6 @@
 ﻿<div>
     <p>Title: @Movie.Title</p>
-    <p>Release Date: <b>@Movie.ReleaseDate.ToString("dd MMM yyyy")</b></p>
+    <p>Release Date: <b>@Movie.ReleaseDate.Value.ToString("dd MMM yyyy")</b></p>
     <div>
         @if (DisplayButton)
         {
