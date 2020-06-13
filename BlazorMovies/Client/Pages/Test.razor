@@ -28,18 +28,18 @@
         @foreach (var movie in movies)
         {
             <p>Title: <b>@((MarkupString)movie.Title)</b></p>
-            <p>Release Date: <b>@movie.ReleaseDate.ToString("dd MMM yyyy")</b></p>
+            <p>Release Date: <b>@movie.ReleaseDate.Value.ToString("dd MMM yyyy")</b></p>
         }
 
         <p>Title: <b>@spiderman.Title</b></p>
-        <p>Release Date: <b>@spiderman.ReleaseDate.ToString("dd MMM yyyy")</b></p>
+        <p>Release Date: <b>@spiderman.ReleaseDate.Value.ToString("dd MMM yyyy")</b></p>
         <br />
         <h2>Delaied async</h2>
         @for (int i = 0; i < movies.Count; i++)
         {
             <div style="background-color: @(0 == i % 2 ? "blue" : "red")">
                 <p>Title: <b>@movies[i].Title</b></p>
-                <p>Release Date: <b>@movies[i].ReleaseDate.ToString("dd MMM yyyy")</b></p>
+                <p>Release Date: <b>@movies[i].ReleaseDate.Value.ToString("dd MMM yyyy")</b></p>
             </div>
         }
     }
@@ -72,7 +72,7 @@
     {
         await Task.Delay(3000);
         movies = new List<Movie>
-    {
+{
             // we need to MarkupString cast (above) to show HTML tags
             new Movie {Title = "<b>Spider-Man: Far From Home<b>", ReleaseDate = new DateTime(2019, 7, 2)  },
             new Movie {Title = "<i>Moana</i>", ReleaseDate = new DateTime(2016, 11, 23)  },
