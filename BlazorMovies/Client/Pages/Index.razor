@@ -1,6 +1,5 @@
 ﻿@page "/"
 @page "/index"
-
 @* Index can be accessed as http://localhost or http://localhost/index *@
 
 @inject IRepository repo
@@ -11,6 +10,12 @@
 
     <MoviesList Movies="movies" />
 </div>
+
+<CustomTypeahead SearchMethod="SearchMethod">
+    <ResultTemplate>
+        @context
+    </ResultTemplate>
+</CustomTypeahead>
 
 @code{
 
@@ -23,4 +28,15 @@
         //From Repository service
         movies = repo.GetMovies();
     }
+
+    private async Task<IEnumerable<string>> SearchMethod(string searchText)
+    {
+        await Task.Delay(2000);
+
+        if (searchText.Contains("test", StringComparison.OrdinalIgnoreCase))
+            return Enumerable.Empty<string>();
+
+        return new List<string> { "Milko", "Marco" };
+    }
+
 }
