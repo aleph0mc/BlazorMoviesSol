@@ -1,5 +1,9 @@
 ﻿@page "/genres/create"
 
+@inject NavigationManager nm
+@inject IGenreRepository gr
+
+
 <h3>CreateGenre</h3>
 
 <GenreForm Genre="genre" OnValidSubmit="Create" />
@@ -8,10 +12,22 @@
 
     private Genre genre = new Genre();
 
-    private void Create()
+    private async Task Create()
     {
         Console.WriteLine("Create method");
         Console.WriteLine(genre.Name);
+
+        try
+        {
+            await gr.CreateGenre(genre);
+            nm.NavigateTo("genres");
+        }
+        catch (Exception ex)
+        {
+
+            //....
+            Console.WriteLine(ex.Message);
+        }
     }
 
 }
