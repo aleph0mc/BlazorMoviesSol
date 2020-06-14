@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using System.Net.NetworkInformation;
 using BlazorMovies.Client.Helpers;
 using Blazor.FileReader;
+using BlazorMovies.Client.Repository;
 
 namespace BlazorMovies.Client
 {
@@ -35,6 +36,9 @@ namespace BlazorMovies.Client
         {
             services.AddOptions(); // used for auth. system
             services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(_baseAddress) });
+            services.AddScoped<IHttpService, HttpService>();
+            services.AddScoped<IGenreRepository, GenreRepository>();
+
             services.AddSingleton<SingletonService>();
             services.AddTransient<TransientService>();
             services.AddTransient<IRepository, RepositoryInMemory>();
