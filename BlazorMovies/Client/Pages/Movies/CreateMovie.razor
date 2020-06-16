@@ -1,6 +1,6 @@
 ﻿@page "/movies/create"
 @inject NavigationManager nm
-
+@inject IMoviesRepository mr
 
 <h3>Create movie</h3>
 
@@ -20,8 +20,24 @@
     // We set to an empty list though this is performed as well in the component
     private List<Genre> selectedGenres = new List<Genre>();
 
-    private void Create()
+    private async Task Create()
     {
         Console.WriteLine("Creating movie...");
+        Console.WriteLine(movie.Title);
+
+        try
+        {
+            movie.Id = await mr.CreateMovie(movie);
+            nm.NavigateTo($"movies/{movie.Id}/{movie.Title.Replace(" ", "-")}");
+        }
+        catch (Exception ex)
+        {
+
+            //....
+            Console.WriteLine(ex.Message);
+        }
+        Console.WriteLine($"Movie Id: {movie.Id}");
+
+
     }
 }

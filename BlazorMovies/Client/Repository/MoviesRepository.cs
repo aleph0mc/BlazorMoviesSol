@@ -19,12 +19,14 @@ namespace BlazorMovies.Client.Repository
         }
         public async Task<int> CreateMovie(Movie movie)
         {
-            var response = await _httpService.Post(URL, movie);
+            var response = await _httpService.Post<Movie, int>(URL, movie);
 
             if (!response.Success)
             {
                 throw new ApplicationException(await response.GetBody());
             }
+
+            return response.Response;
         }
 
     }
