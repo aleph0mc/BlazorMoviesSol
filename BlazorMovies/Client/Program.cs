@@ -38,6 +38,7 @@ namespace BlazorMovies.Client
             services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(_baseAddress) });
             services.AddScoped<IHttpService, HttpService>();
             services.AddScoped<IGenreRepository, GenreRepository>();
+            services.AddScoped<IPersonRepository, PersonRepository>();
 
             services.AddSingleton<SingletonService>();
             services.AddTransient<TransientService>();

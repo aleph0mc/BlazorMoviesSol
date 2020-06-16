@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using System.Linq;
 using BlazorMovies.Server.Data;
 using Microsoft.EntityFrameworkCore;
+using BlazorMovies.Server.Helpers;
 
 namespace BlazorMovies.Server
 {
@@ -29,6 +30,9 @@ namespace BlazorMovies.Server
                 //.UseLazyLoadingProxies();
                 x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
+
+            services.AddScoped<IFileStorageService, AzureStorageService>();
+
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
