@@ -1,4 +1,5 @@
 ﻿@page "/genres"
+@inject IGenreRepository gr
 
 <h3>Genres</h3>
 
@@ -6,6 +7,47 @@
     <a class="btn btn-info" href="genres/create">New Genre</a>
 </div>
 
+<GenericList List="genres">
+    <WholeListTemplate>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in genres)
+                {
+                <tr>
+                    <td>
+                        <a class="btn btn-success" href="#">Edit</a>
+                        <button class="btn btn-danger">Delete</button>
+                    </td>
+                    <td>@item.Name</td>
+                </tr>
+
+                }
+            </tbody>
+        </table>
+    </WholeListTemplate>
+</GenericList>
+
 @code {
+
+    private List<Genre> genres;
+
+    protected async override Task OnInitializedAsync()
+    {
+        try
+        {
+            genres = await gr.GetGenres();
+        }
+        catch (Exception ex)
+        {
+
+            Console.WriteLine(ex.Message);
+        }
+    }
 
 }

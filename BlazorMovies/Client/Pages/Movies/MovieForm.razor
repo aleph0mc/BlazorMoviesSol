@@ -79,6 +79,8 @@
         selected = SelectedGenres.Select(g => new MultipleSelectorModel(g.Id.ToString(), g.Name)).ToList();
         notSelected = NotSelectedGenres.Select(g => new MultipleSelectorModel(g.Id.ToString(), g.Name)).ToList();
 
+        Console.WriteLine($"Genre count: {NotSelectedGenres.Count.ToString()}");
+        Console.WriteLine($"Genre count: {notSelected.Count.ToString()}");
 
 
         if (!string.IsNullOrEmpty(imageUrl))

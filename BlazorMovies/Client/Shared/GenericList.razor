@@ -35,15 +35,24 @@ else if (0 == List.Count)
 }
 else
 {
-    @foreach (var item in List)
+    @if (null != ItemTemplate)
     {
-        @ItemTemplate(item)
+        @foreach (var item in List)
+        {
+            @ItemTemplate(item)
+        }
     }
+    else
+    {
+        @WholeListTemplate
+    }
+
 }
 
 @code {
     [Parameter] public RenderFragment NullTemplate { get; set; }
     [Parameter] public RenderFragment EmptyTemplate { get; set; }
     [Parameter] public RenderFragment<TItem> ItemTemplate { get; set; }
+    [Parameter] public RenderFragment WholeListTemplate { get; set; }
     [Parameter] public List<TItem> List { get; set; }
 }

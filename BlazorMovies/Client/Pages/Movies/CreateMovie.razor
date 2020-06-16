@@ -1,24 +1,37 @@
 ﻿@page "/movies/create"
 @inject NavigationManager nm
 @inject IMoviesRepository mr
+@inject IGenreRepository gr
 
 <h3>Create movie</h3>
 
-<MovieForm Movie="movie" OnValidSubmit="Create" SelectedGenres="@selectedGenres" NotSelectedGenres="@notSelectedGenres" />
+@if (null != notSelectedGenres)
+{
+    <MovieForm Movie="movie" OnValidSubmit="Create" SelectedGenres="@selectedGenres" NotSelectedGenres="@notSelectedGenres" />
+}
 
 @code {
 
     Movie movie = new Movie();
 
-    private List<Genre> notSelectedGenres = new List<Genre>
-{
-        new Genre { Id= 1, Name = "Action" },
-        new Genre { Id= 1, Name = "Comedy" },
-        new Genre { Id= 1, Name = "Drama" }
-    };
+    private List<Genre> notSelectedGenres;
 
     // We set to an empty list though this is performed as well in the component
     private List<Genre> selectedGenres = new List<Genre>();
+
+
+    protected async override Task OnInitializedAsync()
+    {
+        try
+        {
+            notSelectedGenres = await gr.GetGenres();
+        }
+        catch (Exception ex)
+        {
+
+            Console.WriteLine(ex.Message);
+        }
+    }
 
     private async Task Create()
     {
