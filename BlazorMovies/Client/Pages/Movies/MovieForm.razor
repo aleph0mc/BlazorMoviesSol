@@ -1,4 +1,6 @@
-﻿<EditForm Model="Movie" OnValidSubmit="OndataAnnotationsValidated">
+﻿@inject IPersonRepository pr
+
+<EditForm Model="Movie" OnValidSubmit="OndataAnnotationsValidated">
     <DataAnnotationsValidator />
 
     <div class="form-group">
@@ -79,10 +81,6 @@
         selected = SelectedGenres.Select(g => new MultipleSelectorModel(g.Id.ToString(), g.Name)).ToList();
         notSelected = NotSelectedGenres.Select(g => new MultipleSelectorModel(g.Id.ToString(), g.Name)).ToList();
 
-        Console.WriteLine($"Genre count: {NotSelectedGenres.Count.ToString()}");
-        Console.WriteLine($"Genre count: {notSelected.Count.ToString()}");
-
-
         if (!string.IsNullOrEmpty(imageUrl))
         {
             imageUrl = Movie.Poster;
@@ -99,13 +97,8 @@
 
     private async Task<IEnumerable<Person>> SearchMethod(string searchText)
     {
-        await Task.Delay(2000);
 
-        return new List<Person>
-{
-            new Person { Id = 1, Name = "Tom Holland", Picture = "https://m.media-amazon.com/images/M/MV5BNTAzMzA3NjQwOF5BMl5BanBnXkFtZTgwMDUzODQ5MTI@._V1_UY317_CR23,0,214,317_AL_.jpg"},
-            new Person { Id = 2, Name = "Tom Hanks", Picture = "https://m.media-amazon.com/images/M/MV5BMTQ2MjMwNDA3Nl5BMl5BanBnXkFtZTcwMTA2NDY3NQ@@._V1_UY317_CR2,0,214,317_AL_.jpg"}
-        };
+        return await pr.GetPeopleByName(searchText);
     }
 
     private async void OndataAnnotationsValidated()

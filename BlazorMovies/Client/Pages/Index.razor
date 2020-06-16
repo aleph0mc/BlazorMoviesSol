@@ -2,41 +2,50 @@
 @page "/index"
 @* Index can be accessed as http://localhost or http://localhost/index *@
 
-@inject IRepository repo
+@inject IMoviesRepository repo
 
 <div>
-    <h3>Movie</h3>
+    <h3>In theathers</h3>
     @*<MoviesListGen Movies="movies" />*@
 
-    <MoviesList Movies="movies" />
+    <MoviesList Movies="inTheaters" />
 </div>
 
-<CustomTypeahead SearchMethod="SearchMethod">
+<div>
+    <h3>Upcoming Releases</h3>
+    @*<MoviesListGen Movies="movies" />*@
+
+    <MoviesList Movies="upcomingReleases" />
+</div>
+
+@*<CustomTypeahead SearchMethod="SearchMethod">
     <ResultTemplate>
         @context
     </ResultTemplate>
-</CustomTypeahead>
+</CustomTypeahead>*@
 
 @code{
 
-    private List<Movie> movies;
+    private List<Movie> inTheaters;
+    private List<Movie> upcomingReleases;
 
     protected async override Task OnInitializedAsync()
     {
-        await Task.Delay(0);
-
         //From Repository service
-        movies = repo.GetMovies();
+
+        var ret = await repo.GetIndexPageDTO();
+        inTheaters = ret.InTheaters;
+        upcomingReleases = ret.UpcomingReleases;
     }
 
-    private async Task<IEnumerable<string>> SearchMethod(string searchText)
-    {
-        await Task.Delay(2000);
+    //private async Task<IEnumerable<string>> SearchMethod(string searchText)
+    //{
+    //    await Task.Delay(2000);
 
-        if (searchText.Contains("test", StringComparison.OrdinalIgnoreCase))
-            return Enumerable.Empty<string>();
+    //    if (searchText.Contains("test", StringComparison.OrdinalIgnoreCase))
+    //        return Enumerable.Empty<string>();
 
-        return new List<string> { "Milko", "Marco" };
-    }
+    //    return new List<string> { "Milko", "Marco" };
+}
 
 }

@@ -30,6 +30,18 @@ namespace BlazorMovies.Server.Controllers
             return await _context.Persons.ToListAsync();
         }
 
+        [HttpGet("search/{searchText}")]
+        public async Task<ActionResult<List<Person>>> FilterByName(string searchText)
+        {
+            if (string.IsNullOrWhiteSpace(searchText))
+                return new List<Person>();
+
+            return await _context.Persons.Where(p => p.Name.ToLower().Contains(searchText.ToLower()))
+                .Take(5) //TODO: pagination
+                .ToListAsync();
+        }
+
+
         [HttpPost]
         public async Task<ActionResult<int>> Post(Person person)
         {
