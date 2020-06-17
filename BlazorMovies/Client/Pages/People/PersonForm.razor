@@ -38,9 +38,10 @@
 
     protected override void OnInitialized()
     {
-        if (!string.IsNullOrEmpty(imageUrl))
+        if (!string.IsNullOrEmpty(Person.Picture))
         {
             imageUrl = Person.Picture;
+
             Person.Picture = null;
         }
     }

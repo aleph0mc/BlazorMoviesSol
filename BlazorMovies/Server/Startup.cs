@@ -10,6 +10,7 @@ using BlazorMovies.Server.Data;
 using Microsoft.EntityFrameworkCore;
 using BlazorMovies.Server.Helpers;
 using Newtonsoft.Json;
+using AutoMapper;
 
 namespace BlazorMovies.Server
 {
@@ -60,6 +61,8 @@ namespace BlazorMovies.Server
             {
                 opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             });
+
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddScoped<IFileStorageService, AzureStorageService>();
 

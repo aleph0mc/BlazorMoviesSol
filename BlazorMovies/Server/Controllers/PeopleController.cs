@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using BlazorMovies.Server.Data;
 using BlazorMovies.Server.Helpers;
 using BlazorMovies.Shared.Entities;
@@ -17,11 +18,24 @@ namespace BlazorMovies.Server.Controllers
     {
         private readonly DataContext _context;
         private readonly IFileStorageService _fileStorageService;
+        private readonly IMapper _mapper;
 
-        public PeopleController(DataContext context, IFileStorageService fileStorageService)
+        public PeopleController(DataContext context, IFileStorageService fileStorageService, IMapper mapper)
         {
             _context = context;
             _fileStorageService = fileStorageService;
+            _mapper = mapper;
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Person>> Get(int id)
+        {
+            var person = await _context.Persons.FirstOrDefaultAsync(p => id == p.Id);
+
+            if (null == person)
+                return NotFound();
+
+            return person;
         }
 
         [HttpGet]
@@ -41,7 +55,6 @@ namespace BlazorMovies.Server.Controllers
                 .ToListAsync();
         }
 
-
         [HttpPost]
         public async Task<ActionResult<int>> Post(Person person)
         {
@@ -56,5 +69,27 @@ namespace BlazorMovies.Server.Controllers
             await _context.SaveChangesAsync();
             return person.Id;
         }
+
+        [HttpPut]
+        public async Task<IActionResult> Put(Person person)
+        {
+            var personDb = await _context.Persons.FirstOrDefaultAsync(p => p.Id == person.Id);
+
+            if (null == personDb)
+                return NotFound();
+
+            personDb = _mapper.Map(person, personDb);
+
+            if (!string.IsNullOrWhiteSpace(person.Picture))
+            {
+                var personPicture = Convert.FromBase64String(person.Picture);
+                person.Picture = await _fileStorageService.EditFile(personPicture, "jpg", "people", personDb.Picture);
+            }
+
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
     }
 }
