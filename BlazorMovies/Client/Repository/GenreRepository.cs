@@ -28,6 +28,18 @@ namespace BlazorMovies.Client.Repository
             return response.Response;
         }
 
+        public async Task<Genre> GetGenre(int id)
+        {
+            var response = await _httpService.Get<Genre>($"{URL}/{id}");
+
+            if (!response.Success)
+            {
+                throw new ApplicationException(await response.GetBody());
+            }
+
+            return response.Response;
+        }
+
         public async Task CreateGenre(Genre genre)
         {
             var response = await _httpService.Post(URL, genre);
@@ -37,5 +49,16 @@ namespace BlazorMovies.Client.Repository
                 throw new ApplicationException(await response.GetBody());
             }
         }
+
+        public async Task UpdateGenre(Genre genre)
+        {
+            var response = await _httpService.Put(URL, genre);
+
+            if (!response.Success)
+            {
+                throw new ApplicationException(await response.GetBody());
+            }
+        }
+
     }
 }

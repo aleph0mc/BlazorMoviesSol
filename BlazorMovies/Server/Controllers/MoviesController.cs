@@ -25,6 +25,31 @@ namespace BlazorMovies.Server.Controllers
             _fileStorageService = fileStorageService;
         }
 
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<DetailsMovieDTO>> GetMovie(int id)
+        {
+            var movie = await _context.Movies.Where(m => id == m.Id)
+                .Include(mg => mg.MoviesGenres).ThenInclude(g => g.Genre)
+                .Include(ma => ma.MoviesActors).ThenInclude(p => p.Person)
+                .FirstOrDefaultAsync();
+
+            if (null == movie)
+                return NotFound($"No movie found with id:{id}");
+
+            movie.MoviesActors = movie.MoviesActors.OrderBy(o => o.Order).ToList();
+
+            var detailsMovieDTO = new DetailsMovieDTO
+            {
+                Movie = movie,
+                Genres = movie.MoviesGenres.Select(g => g.Genre).ToList(),
+                Actors = movie.MoviesActors.Select(p => p.Person).ToList()
+            };
+
+            return Ok(detailsMovieDTO);
+        }
+
+
         [HttpGet]
         public async Task<ActionResult<IndexPageDTO>> Get()
         {

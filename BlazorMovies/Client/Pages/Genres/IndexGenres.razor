@@ -19,13 +19,13 @@
             <tbody>
                 @foreach (var item in genres)
                 {
-                <tr>
-                    <td>
-                        <a class="btn btn-success" href="#">Edit</a>
-                        <button class="btn btn-danger">Delete</button>
-                    </td>
-                    <td>@item.Name</td>
-                </tr>
+                    <tr>
+                        <td>
+                            <a class="btn btn-success" href="genres/edit/@item.Id">Edit</a>
+                            <button class="btn btn-danger">Delete</button>
+                        </td>
+                        <td>@item.Name</td>
+                    </tr>
 
                 }
             </tbody>

@@ -9,6 +9,7 @@ using System.Linq;
 using BlazorMovies.Server.Data;
 using Microsoft.EntityFrameworkCore;
 using BlazorMovies.Server.Helpers;
+using Newtonsoft.Json;
 
 namespace BlazorMovies.Server
 {
@@ -21,14 +22,43 @@ namespace BlazorMovies.Server
 
         public IConfiguration Configuration { get; }
 
+
+        // The following 2 methods are convension based for .Net Core,
+        // therefore it is important to keep the names exactly as they are
+        public void ConfigureDevelopmentServices(IServiceCollection services)
+        {
+            services.AddDbContext<DataContext>(x =>
+            {
+                //x.UseLazyLoadingProxies();
+                x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            });
+
+            ConfigureServices(services);
+        }
+        public void ConfigureProductionServices(IServiceCollection services)
+        {
+            services.AddDbContext<DataContext>(x =>
+            {
+                //x.UseLazyLoadingProxies();
+                x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            });
+
+            ConfigureServices(services);
+        }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(x =>
+            //services.AddDbContext<DataContext>(x =>
+            //{
+            //    //.UseLazyLoadingProxies();
+            //    x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            //});
+
+            services.AddControllers().AddNewtonsoftJson(opt =>
             {
-                //.UseLazyLoadingProxies();
-                x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             });
 
             services.AddScoped<IFileStorageService, AzureStorageService>();
