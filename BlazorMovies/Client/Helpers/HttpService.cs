@@ -71,5 +71,12 @@ namespace BlazorMovies.Client.Helpers
 
             return new HttpResponseWrapper<TResponse>(default, false, response);
         }
+
+        public async Task<HttpResponseWrapper<object>> Delete(string url)
+        {
+            var responseHTTP = await _httpClinet.DeleteAsync(url);
+
+            return new HttpResponseWrapper<object>(null, responseHTTP.IsSuccessStatusCode, responseHTTP);
+        }
     }
 }

@@ -22,7 +22,7 @@
                     <tr>
                         <td>
                             <a class="btn btn-success" href="genres/edit/@item.Id">Edit</a>
-                            <button class="btn btn-danger">Delete</button>
+                            <button class="btn btn-danger" @onclick="@(() => DeleteGenre(item.Id))">Delete</button>
                         </td>
                         <td>@item.Name</td>
                     </tr>
@@ -50,4 +50,19 @@
         }
     }
 
+    private async Task DeleteGenre(int id)
+    {
+        try
+        {
+            Console.WriteLine($"Deleting GenreId: {id}");
+            await gr.DeleteGenre(id);
+            genres = await gr.GetGenres();
+
+        }
+        catch (Exception ex)
+        {
+
+            Console.WriteLine(ex.Message);
+        }
+    }
 }

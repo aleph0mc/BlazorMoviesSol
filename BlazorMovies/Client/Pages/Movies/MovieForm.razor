@@ -1,6 +1,6 @@
 ﻿@inject IPersonRepository pr
 
-<EditForm Model="Movie" OnValidSubmit="OndataAnnotationsValidated">
+<EditForm Model="Movie" OnValidSubmit="OnDataAnnotationsValidated">
     <DataAnnotationsValidator />
 
     <div class="form-group">
@@ -81,7 +81,7 @@
         selected = SelectedGenres.Select(g => new MultipleSelectorModel(g.Id.ToString(), g.Name)).ToList();
         notSelected = NotSelectedGenres.Select(g => new MultipleSelectorModel(g.Id.ToString(), g.Name)).ToList();
 
-        if (!string.IsNullOrEmpty(imageUrl))
+        if (!string.IsNullOrEmpty(Movie.Poster))
         {
             imageUrl = Movie.Poster;
             Movie.Poster = null;
@@ -101,7 +101,7 @@
         return await pr.GetPeopleByName(searchText);
     }
 
-    private async void OndataAnnotationsValidated()
+    private async void OnDataAnnotationsValidated()
     {
         Movie.MoviesGenres = selected
             .Select(x => new MoviesGenres { GenreId = int.Parse(x.Key) }).ToList();

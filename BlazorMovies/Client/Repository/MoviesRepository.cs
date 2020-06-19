@@ -51,5 +51,37 @@ namespace BlazorMovies.Client.Repository
             return response.Response;
         }
 
+        public async Task UpdateMovie(Movie movie)
+        {
+            var response = await _httpService.Put(URL, movie);
+
+            if (!response.Success)
+            {
+                throw new ApplicationException(await response.GetBody());
+            }
+        }
+
+        public async Task<MovieUpdateDTO> GetMovieForUpdate(int id)
+        {
+            var response = await _httpService.Get<MovieUpdateDTO>($"{URL}/update/{id}");
+
+            if (!response.Success)
+            {
+                throw new ApplicationException(await response.GetBody());
+            }
+
+            return response.Response;
+        }
+
+        public async Task DeleteMovie(int id)
+        {
+            var response = await _httpService.Delete($"{URL}/{id}");
+
+            if (!response.Success)
+            {
+                throw new ApplicationException(await response.GetBody());
+            }
+        }
+
     }
 }

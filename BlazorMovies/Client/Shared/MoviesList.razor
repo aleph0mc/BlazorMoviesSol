@@ -1,4 +1,5 @@
 ﻿@inject IJSRuntime js
+@inject IMoviesRepository mr
 
 <div class="movies-container">
     <GenericList List="Movies">
@@ -22,7 +23,11 @@
 
         var confirmed = await js.Confirm($"Are you sure you want to delete {movie.Title}?");
         if (confirmed)
+        {
+            await mr.DeleteMovie(movie.Id);
+
             Movies.Remove(movie);
+        }
 
     }
 }
