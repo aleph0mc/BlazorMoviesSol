@@ -46,7 +46,15 @@ namespace BlazorMovies.Server.Controllers
             {
                 Movie = movie,
                 Genres = movie.MoviesGenres.Select(g => g.Genre).ToList(),
-                Actors = movie.MoviesActors.Select(p => p.Person).ToList()
+                    Actors = movie.MoviesActors.Select(x => new Person
+                    {
+                        Name = x.Person.Name,
+                        Picture = x.Person.Picture,
+                        Character = x.Character,
+                        Id = x.PersonId
+
+                    })
+                .ToList()
             };
 
             return detailsMovieDTO;
@@ -72,7 +80,7 @@ namespace BlazorMovies.Server.Controllers
                 Actors = movieDetailDTO.Actors
             };
 
-            return Ok(model);
+            return model;
         }
 
 
