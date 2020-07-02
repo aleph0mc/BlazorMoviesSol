@@ -4,12 +4,11 @@
 <div class="movies-container">
     <GenericList List="Movies">
         <ItemTemplate Context="movie">
-            <IndividualMovie2 Movie="movie" DeleteMovie="DeleteMovieAsync" />
-
+            @* The attribute @Key is important for it differentiates one movie to another - called Diffing algorithm *@ 
+            <IndividualMovie2 Movie="movie" DeleteMovie="DeleteMovieAsync" @key="movie.Id" />
         </ItemTemplate>
     </GenericList>
 </div>
-
 
 @code {
 
