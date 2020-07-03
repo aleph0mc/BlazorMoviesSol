@@ -11,6 +11,11 @@ using Microsoft.EntityFrameworkCore;
 using BlazorMovies.Server.Helpers;
 using Newtonsoft.Json;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System;
 
 namespace BlazorMovies.Server
 {
@@ -57,6 +62,25 @@ namespace BlazorMovies.Server
             //    x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             //});
 
+            // Using Identity Server
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<DataContext>()
+                .AddDefaultTokenProviders();
+
+            //JWT token - authentication scheme
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes(Configuration["jwt:key"])),
+                    ClockSkew = TimeSpan.Zero
+                });
+
             services.AddControllers().AddNewtonsoftJson(opt =>
             {
                 opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
@@ -90,6 +114,10 @@ namespace BlazorMovies.Server
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            //Add authentication and authorization for IdentityServer
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
