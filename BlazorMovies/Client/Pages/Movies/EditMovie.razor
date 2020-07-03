@@ -1,7 +1,9 @@
 ﻿@page "/movies/edit/{MovieId:int}"
 
 @inject IMoviesRepository mr
-@inject  NavigationManager nm
+@inject NavigationManager nm
+@* Only authorized users can access this component *@
+@attribute [Authorize]
 
 <h3>Edit Movie</h3>
 

@@ -4,10 +4,20 @@
     </a>
     <p><a href="@movieUrl">@Movie.TitleBrief</a></p>
     <div>
-        <a class="btn btn-info" href="/movies/edit/@Movie.Id">Edit</a>
-        <button class="btn btn-danger" @onclick="@(() => DeleteMovie.InvokeAsync(Movie))">
-            Delete
-        </button>
+
+        <AuthorizeView>
+            <Authorized>
+                <a class="btn btn-info" href="/movies/edit/@Movie.Id">Edit</a>
+                <button class="btn btn-danger" @onclick="@(() => DeleteMovie.InvokeAsync(Movie))">
+                    Delete
+                </button>
+            </Authorized>
+        </AuthorizeView>
+
+        @*<a class="btn btn-info" href="/movies/edit/@Movie.Id">Edit</a>
+            <button class="btn btn-danger" @onclick="@(() => DeleteMovie.InvokeAsync(Movie))">
+                Delete
+            </button>*@
     </div>
 </div>
 

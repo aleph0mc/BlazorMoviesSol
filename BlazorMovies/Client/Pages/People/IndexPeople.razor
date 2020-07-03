@@ -1,5 +1,7 @@
 ﻿@page "/people"
 @inject IPersonRepository pr
+@* Only authorized users can access this component *@
+@attribute [Authorize]
 
 <h3>Person</h3>
 

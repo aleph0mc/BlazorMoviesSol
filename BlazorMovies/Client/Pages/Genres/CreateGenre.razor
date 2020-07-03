@@ -2,7 +2,8 @@
 
 @inject NavigationManager nm
 @inject IGenreRepository gr
-
+@* Only authorized users can access this component *@
+@attribute [Authorize]
 
 <h3>CreateGenre</h3>
 

@@ -4,6 +4,15 @@
 
 @inject IMoviesRepository repo
 
+@*<AuthorizeView Roles="Admin">
+    <Authorized>
+        <p style="color: green;">User is authorized, @context.User.Identity.Name</p>
+    </Authorized>
+    <NotAuthorized>
+        <p style="color: red;">User is NOT authorized</p>
+    </NotAuthorized>
+</AuthorizeView>*@
+
 <div>
     <h3>In theathers</h3>
     @*<MoviesListGen Movies="movies" />*@

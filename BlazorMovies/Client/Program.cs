@@ -11,6 +11,8 @@ using System.Net.NetworkInformation;
 using BlazorMovies.Client.Helpers;
 using Blazor.FileReader;
 using BlazorMovies.Client.Repository;
+using Microsoft.AspNetCore.Components.Authorization;
+using BlazorMovies.Client.Auth;
 
 namespace BlazorMovies.Client
 {
@@ -45,6 +47,8 @@ namespace BlazorMovies.Client
             services.AddTransient<TransientService>();
             services.AddTransient<IRepository, RepositoryInMemory>();
             services.AddFileReaderService(options => options.InitializeOnFirstCall = true);
+            services.AddAuthorizationCore(); //Authorization component
+            services.AddScoped<AuthenticationStateProvider, DummyAuthenticationStateProvider>();
         }
     }
 }

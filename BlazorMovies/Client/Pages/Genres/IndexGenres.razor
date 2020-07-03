@@ -1,5 +1,9 @@
 ﻿@page "/genres"
+
 @inject IGenreRepository gr
+@* Only authorized users can access this component *@
+@attribute [Authorize]
+@*@attribute [Authorize(Roles = "Admin")]*@
 
 <h3>Genres</h3>
 
