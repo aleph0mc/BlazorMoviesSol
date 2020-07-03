@@ -13,6 +13,7 @@ using Blazor.FileReader;
 using BlazorMovies.Client.Repository;
 using Microsoft.AspNetCore.Components.Authorization;
 using BlazorMovies.Client.Auth;
+using System.Net.Mail;
 
 namespace BlazorMovies.Client
 {
@@ -48,7 +49,21 @@ namespace BlazorMovies.Client
             services.AddTransient<IRepository, RepositoryInMemory>();
             services.AddFileReaderService(options => options.InitializeOnFirstCall = true);
             services.AddAuthorizationCore(); //Authorization component
-            services.AddScoped<AuthenticationStateProvider, DummyAuthenticationStateProvider>();
+            //services.AddScoped<AuthenticationStateProvider, DummyAuthenticationStateProvider>();
+
+            //In JWTAuthenticationStateProvider there is the ILoginService and to use the DI we need to add this code
+            //Create an instance of JWTAuthenticationStateProvider
+            services.AddScoped<JWTAuthenticationStateProvider>();
+            //Use same instance of JWTAuthenticationStateProvider for both AuthenticationStateProvider
+            services.AddScoped<AuthenticationStateProvider, JWTAuthenticationStateProvider>(
+                provider => provider.GetRequiredService<JWTAuthenticationStateProvider>()
+            );
+            //And ILoginService
+            services.AddScoped<ILoginService, JWTAuthenticationStateProvider>(
+                provider => provider.GetRequiredService<JWTAuthenticationStateProvider>()
+            );
+
+            services.AddScoped<TokenRenewer>();
         }
     }
 }
