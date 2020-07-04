@@ -3,6 +3,8 @@
 @* There's no need of type definition for strings in the route above *@
 
 @inject IMoviesRepository mr
+@inject IRatingRepository ratingRepository
+@inject IDisplayMessage displayMessage
 
 @if (null == model)
 {
@@ -27,6 +29,10 @@ else
     }
 
     <text> | </text><span>@model.Movie.ReleaseDate.Value.ToString("dd MM yyyy")</span>
+
+    <text> | Average: </text> @model.AverageVote.ToString("0.#") <text>/5 | Your vote: </text>
+    <Rating MaximumRating="5" SelectedRating="model.UserVote" OnVote="OnVote" />
+
 
     <div style="display: flex">
         <span style="display: inline-block; margin-right: 5px">
@@ -82,6 +88,14 @@ else
             Console.WriteLine(ex.Message);
         }
 
+    }
+
+    private async Task OnVote(int selectedRate)
+    {
+        model.UserVote = selectedRate;
+        var movieRating = new MovieRating() { Rate = selectedRate, MovieId = MovieId };
+        await ratingRepository.Vote(movieRating);
+        await displayMessage.DisplaySuccessMessage("Your vote has been received!");
     }
 
     private RenderFragment<Genre> linkGenre = (genre) =>@<a href="movies/search?@genre.Id">@genre.Name</a>;

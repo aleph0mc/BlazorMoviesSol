@@ -17,6 +17,7 @@ namespace BlazorMovies.Server.Data
         public DbSet<Genre> Genres { get; set; }
         public DbSet<MoviesActors> MoviesActors { get; set; }
         public DbSet<MoviesGenres> MoviesGenres { get; set; }
+        public DbSet<MovieRating> MovieRating { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
