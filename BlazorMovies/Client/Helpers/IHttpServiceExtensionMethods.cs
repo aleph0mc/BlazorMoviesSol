@@ -29,7 +29,7 @@ namespace BlazorMovies.Client.Helpers
 
             var httpResponse = await httpService.Get<T>(newUrl);
 
-            //Get the total amount of pages fro header
+            //Get the total amount of pages from header
             var totalAmountPages = int.Parse(httpResponse.HttpResponseMessage.Headers.GetValues("totalAmountPages").FirstOrDefault());
 
             var paginatedResponse = new PaginatedResponse<T>
