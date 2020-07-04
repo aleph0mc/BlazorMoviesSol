@@ -10,7 +10,7 @@ namespace BlazorMovies.Client.Repository
     public class AccountsRepository : IAccountsRepository
     {
         private readonly IHttpService httpService;
-        private readonly string baseURL = "api/accounts";
+        private readonly string baseURL = "api/account";
 
         public AccountsRepository(IHttpService httpService)
         {
