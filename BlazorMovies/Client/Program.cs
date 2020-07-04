@@ -46,6 +46,7 @@ namespace BlazorMovies.Client
             services.AddScoped<IAccountsRepository, AccountsRepository>();
             services.AddScoped<IRatingRepository, RatingRepository>();
             services.AddScoped<IDisplayMessage, DisplayMessage>();
+            services.AddScoped<IUsersRepository, UserRepository>();
 
             services.AddSingleton<SingletonService>();
             services.AddTransient<TransientService>();
