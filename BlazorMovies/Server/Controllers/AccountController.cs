@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BlazorMovies.Server.Controllers
 {
@@ -64,6 +66,7 @@ namespace BlazorMovies.Server.Controllers
                 Expiration = expiration
             };
         }
+        
         [HttpPost("Create")]
         public async Task<ActionResult<UserToken>> CreateUser([FromBody] UserInfo model)
         {
@@ -85,6 +88,18 @@ namespace BlazorMovies.Server.Controllers
                 return await BuildToken(userInfo);
             else
                 return BadRequest("Invalid login attempt");
+        }
+
+        [HttpGet("RenewToken")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<ActionResult<UserToken>> Renew()
+        {
+            var userInfo = new UserInfo()
+            {
+                Email = HttpContext.User.Identity.Name
+            };
+
+            return await BuildToken(userInfo);
         }
     }
 }

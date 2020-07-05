@@ -67,6 +67,7 @@ namespace BlazorMovies.Client
                 provider => provider.GetRequiredService<JWTAuthenticationStateProvider>()
             );
 
+            //Used to renew the token automatically (if required) as a background task
             services.AddScoped<TokenRenewer>();
         }
     }

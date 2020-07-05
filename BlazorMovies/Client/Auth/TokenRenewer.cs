@@ -8,31 +8,31 @@ namespace BlazorMovies.Client.Auth
 {
     public class TokenRenewer : IDisposable
     {
+        private Timer _timer;
+        private readonly ILoginService _loginService;
+
         public TokenRenewer(ILoginService loginService)
         {
-            this.loginService = loginService;
+            _loginService = loginService;
         }
-
-        Timer timer;
-        private readonly ILoginService loginService;
 
         public void Initiate()
         {
-            timer = new Timer();
-            timer.Interval = 1000 * 60 * 4; // 4 minutes
-            timer.Elapsed += Timer_Elapsed;
-            timer.Start();
+            _timer = new Timer();
+            _timer.Interval = 1000 * 60 * 4; // 4 minutes
+            _timer.Elapsed += Timer_Elapsed;
+            _timer.Start();
         }
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             Console.WriteLine("timer elapsed");
-            loginService.TryRenewToken();
+            _loginService.TryRenewToken();
         }
 
         public void Dispose()
         {
-            timer?.Dispose();
+            _timer?.Dispose();
         }
     }
 }

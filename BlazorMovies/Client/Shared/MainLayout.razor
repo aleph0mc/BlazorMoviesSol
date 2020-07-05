@@ -1,5 +1,9 @@
 ﻿@inherits LayoutComponentBase
 
+@inject BlazorMovies.Client.Auth.TokenRenewer tr
+@inject NavigationManager navigationManager
+@inject IJSRuntime js
+
 <div class="sidebar">
     <NavMenu />
 </div>
@@ -17,6 +21,8 @@
 
 @code {
 
+    [CascadingParameter] public Task<AuthenticationState> AuthenticationState { get; set; }
+
     // If there are many cascading parameters to use it is better to define a class
     public class AppState
     {
@@ -27,4 +33,21 @@
     //Then we instantiate the AppState class
     AppState appState = new AppState();
 
+    protected async override Task OnInitializedAsync()
+    {
+        await js.InitializeInactivityTimer(DotNetObjectReference.Create(this));
+        tr.Initiate(); //Start the timer to automatically renew the token (if required)
+        Console.WriteLine("Renew token timer started...");
+    }
+
+    [JSInvokable]
+    public async Task Logout()
+    {
+        var authState = await AuthenticationState;
+        if (authState.User.Identity.IsAuthenticated)
+        {
+            // Uncomment to activate automatic logout
+            navigationManager.NavigateTo("logout");
+        }
+    }
 }
