@@ -20,7 +20,7 @@ namespace BlazorMovies.Client.Helpers
 
         public static async Task<PaginatedResponse<T>> GetHelper<T>(this IHttpService httpService, string url, PaginationDTO paginationDTO)
         {
-            var newUrl = string.Empty;
+            string newUrl;
 
             if (url.Contains("?"))
                 newUrl = $"{url}&page={paginationDTO.Page}&recordsPerPage={paginationDTO.RecordsPerPage}";

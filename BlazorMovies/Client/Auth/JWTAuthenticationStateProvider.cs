@@ -109,9 +109,8 @@ namespace BlazorMovies.Client.Auth
             }
 
             var expirationTimeString = await _js.GetFromLocalStorage(EXPIRATIONTOKENKEY);
-            DateTime expirationTime;
 
-            if (DateTime.TryParse(expirationTimeString, out expirationTime))
+            if (DateTime.TryParse(expirationTimeString, out DateTime expirationTime))
             {
                 if (IsTokenExpired(expirationTime))
                 {
@@ -131,9 +130,8 @@ namespace BlazorMovies.Client.Auth
         public async Task TryRenewToken()
         {
             var expirationTimeString = await _js.GetFromLocalStorage(EXPIRATIONTOKENKEY);
-            DateTime expirationTime;
 
-            if (DateTime.TryParse(expirationTimeString, out expirationTime))
+            if (DateTime.TryParse(expirationTimeString, out DateTime expirationTime))
             {
                 if (IsTokenExpired(expirationTime))
                     await Logout();
