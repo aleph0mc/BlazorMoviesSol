@@ -21,7 +21,7 @@ namespace BlazorMovies.Client.Repository
 
         public async Task<List<Genre>> GetGenres()
         {
-            var response = await _httpService.Get<List<Genre>>(URL);
+            var response = await _httpService.Get<List<Genre>>(URL, includeToken: false); //required for anonymous because in the filter the is the list of genres
             if (!response.Success)
                 throw new ApplicationException(await response.GetBody());
 

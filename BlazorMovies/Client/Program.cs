@@ -12,8 +12,8 @@ using BlazorMovies.Client.Helpers;
 using Blazor.FileReader;
 using BlazorMovies.Client.Repository;
 using Microsoft.AspNetCore.Components.Authorization;
-using BlazorMovies.Client.Auth;
 using System.Net.Mail;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 
 namespace BlazorMovies.Client
 {
@@ -27,6 +27,13 @@ namespace BlazorMovies.Client
             builder.RootComponents.Add<App>("app");
 
             //builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            builder.Services.AddHttpClient<HttpClientWithToken>(
+                client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))
+                .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>(); //This takes care of the JWT token in the request header automatically
+
+            builder.Services.AddHttpClient<HttpClientWithoutToken>(
+              client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
+
 
             // To configure all the servises for DI
             _baseAddress = builder.HostEnvironment.BaseAddress;
@@ -51,24 +58,12 @@ namespace BlazorMovies.Client
             services.AddSingleton<SingletonService>();
             services.AddTransient<TransientService>();
             services.AddTransient<IRepository, RepositoryInMemory>();
+
+            //File management (upload)
             services.AddFileReaderService(options => options.InitializeOnFirstCall = true);
-            services.AddAuthorizationCore(); //Authorization component
-            //services.AddScoped<AuthenticationStateProvider, DummyAuthenticationStateProvider>();
 
-            //In JWTAuthenticationStateProvider there is the ILoginService and to use the DI we need to add this code
-            //Create an instance of JWTAuthenticationStateProvider
-            services.AddScoped<JWTAuthenticationStateProvider>();
-            //Use same instance of JWTAuthenticationStateProvider for both AuthenticationStateProvider
-            services.AddScoped<AuthenticationStateProvider, JWTAuthenticationStateProvider>(
-                provider => provider.GetRequiredService<JWTAuthenticationStateProvider>()
-            );
-            //And ILoginService
-            services.AddScoped<ILoginService, JWTAuthenticationStateProvider>(
-                provider => provider.GetRequiredService<JWTAuthenticationStateProvider>()
-            );
-
-            //Used to renew the token automatically (if required) as a background task
-            services.AddScoped<TokenRenewer>();
+            //IdentityServer4 authorization
+            services.AddApiAuthorization();
         }
     }
 }

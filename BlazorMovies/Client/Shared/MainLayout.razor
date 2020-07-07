@@ -1,6 +1,5 @@
 ﻿@inherits LayoutComponentBase
 
-@inject BlazorMovies.Client.Auth.TokenRenewer tr
 @inject NavigationManager navigationManager
 @inject IJSRuntime js
 
@@ -36,7 +35,6 @@
     protected async override Task OnInitializedAsync()
     {
         await js.InitializeInactivityTimer(DotNetObjectReference.Create(this));
-        tr.Initiate(); //Start the timer to automatically renew the token (if required)
         Console.WriteLine("Renew token timer started...");
     }
 

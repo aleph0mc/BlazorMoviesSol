@@ -22,7 +22,7 @@ namespace BlazorMovies.Client.Repository
 
         private async Task<T> Get<T>(string url)
         {
-            var response = await _httpService.Get<T>(url);
+            var response = await _httpService.Get<T>(url, includeToken: false);
             if (!response.Success)
                 throw new ApplicationException(await response.GetBody());
 
@@ -41,7 +41,7 @@ namespace BlazorMovies.Client.Repository
 
         public async Task<PaginatedResponse<List<Movie>>> GetMoviesFiltered(FilterMoviesDTO filterMoviesDTO)
         {
-            var responseHTTP = await _httpService.Post<FilterMoviesDTO, List<Movie>>($"{URL}/filter", filterMoviesDTO);
+            var responseHTTP = await _httpService.Post<FilterMoviesDTO, List<Movie>>($"{URL}/filter", filterMoviesDTO, includeToken: false);
             var totalAmountPages = int.Parse(responseHTTP.HttpResponseMessage.Headers.GetValues("totalAmountPages").FirstOrDefault());
             var paginatedResponse = new PaginatedResponse<List<Movie>>()
             {

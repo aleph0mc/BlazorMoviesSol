@@ -17,6 +17,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System;
 using Microsoft.AspNetCore.Authentication;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace BlazorMovies.Server
 {
@@ -24,6 +25,7 @@ namespace BlazorMovies.Server
     {
         public Startup(IConfiguration configuration)
         {
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             Configuration = configuration;
         }
 
@@ -68,7 +70,7 @@ namespace BlazorMovies.Server
             //    .AddEntityFrameworkStores<DataContext>()
             //    .AddDefaultTokenProviders();
 
-            // Using IdentityServer4
+            // Using IdentityServer4 -----------------------------
             services.AddDefaultIdentity<IdentityUser>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
@@ -77,11 +79,12 @@ namespace BlazorMovies.Server
             .AddEntityFrameworkStores<DataContext>();
 
             services.AddIdentityServer()
-                .AddApiAuthorization<IdentityUser, DataContext>();
-                //.AddProfileService<IdentityProfileService>();
+                .AddApiAuthorization<IdentityUser, DataContext>()
+                .AddProfileService<IdentityProfileService>();
 
             services.AddAuthentication()
                 .AddIdentityServerJwt();
+            // -----------------------------------------------------
 
             //JWT token - authentication scheme
             //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
