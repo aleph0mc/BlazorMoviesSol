@@ -18,6 +18,7 @@ using System.Text;
 using System;
 using Microsoft.AspNetCore.Authentication;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.CodeAnalysis.Options;
 
 namespace BlazorMovies.Server
 {
@@ -74,6 +75,11 @@ namespace BlazorMovies.Server
             services.AddDefaultIdentity<IdentityUser>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
+                // simplify password format - for test purposes only
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
             })
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<DataContext>();
