@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System;
+using Microsoft.AspNetCore.Authentication;
 
 namespace BlazorMovies.Server
 {
@@ -63,23 +64,39 @@ namespace BlazorMovies.Server
             //});
 
             // Using Identity Server
-            services.AddIdentity<IdentityUser, IdentityRole>()
-                .AddEntityFrameworkStores<DataContext>()
-                .AddDefaultTokenProviders();
+            //services.AddIdentity<IdentityUser, IdentityRole>()
+            //    .AddEntityFrameworkStores<DataContext>()
+            //    .AddDefaultTokenProviders();
+
+            // Using IdentityServer4
+            services.AddDefaultIdentity<IdentityUser>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+            })
+            .AddRoles<IdentityRole>()
+            .AddEntityFrameworkStores<DataContext>();
+
+            services.AddIdentityServer()
+                .AddApiAuthorization<IdentityUser, DataContext>();
+                //.AddProfileService<IdentityProfileService>();
+
+            services.AddAuthentication()
+                .AddIdentityServerJwt();
 
             //JWT token - authentication scheme
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes(Configuration["jwt:key"])),
-                    ClockSkew = TimeSpan.Zero
-                });
+            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //    .AddJwtBearer(options =>
+            //    options.TokenValidationParameters = new TokenValidationParameters
+            //    {
+            //        ValidateIssuer = false,
+            //        ValidateAudience = false,
+            //        ValidateLifetime = true,
+            //        ValidateIssuerSigningKey = true,
+            //        IssuerSigningKey = new SymmetricSecurityKey(
+            //        Encoding.UTF8.GetBytes(Configuration["jwt:key"])),
+            //        ClockSkew = TimeSpan.Zero
+            //    });
+
 
             services.AddControllers().AddNewtonsoftJson(opt =>
             {
@@ -117,6 +134,7 @@ namespace BlazorMovies.Server
 
             //Add authentication and authorization for IdentityServer
             app.UseAuthentication();
+            app.UseIdentityServer();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

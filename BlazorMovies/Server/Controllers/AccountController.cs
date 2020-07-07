@@ -91,7 +91,7 @@ namespace BlazorMovies.Server.Controllers
         }
 
         [HttpGet("RenewToken")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize]
         public async Task<ActionResult<UserToken>> Renew()
         {
             var userInfo = new UserInfo()

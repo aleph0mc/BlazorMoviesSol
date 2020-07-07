@@ -14,7 +14,7 @@ namespace BlazorMovies.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class GenresController : ControllerBase
     {
         private readonly DataContext _context;
