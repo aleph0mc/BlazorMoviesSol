@@ -343,3 +343,4 @@ healthchecksdb
 /BlazorMovies/Server/Properties/serviceDependencies.local.json
 /BlazorMovies/Server/Properties/serviceDependencies.json
 /BlazorMovies/Server/Properties/serviceDependencies.BlazorMoviesServer20200708110153 - Web Deploy.json
+/BlazorMovies/Server/appsettings.Production.json
