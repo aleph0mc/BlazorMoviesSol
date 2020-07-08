@@ -18,7 +18,6 @@ using System.Text;
 using System;
 using Microsoft.AspNetCore.Authentication;
 using System.IdentityModel.Tokens.Jwt;
-using Microsoft.CodeAnalysis.Options;
 
 namespace BlazorMovies.Server
 {
