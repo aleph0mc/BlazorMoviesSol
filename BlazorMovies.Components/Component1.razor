@@ -1,0 +1,23 @@
+﻿@inject IJSRuntime js
+@inject IExampleInterface example
+
+
+<div class="my-component">
+    This Blazor component is defined in the <strong>BlazorMovies.Components</strong> package.
+</div>
+
+@name - @Param1
+<br />
+<button @onclick="HandlePrompt">Display prompt</button>
+<br />
+Value from the interface: @example.GetValue()
+
+@code{
+    public string name { get; set; } = "Milko";
+    [Parameter] public string Param1 { get; set; }
+
+    private void HandlePrompt()
+    {
+        js.Prompt("prompt from RCL");
+    }
+}

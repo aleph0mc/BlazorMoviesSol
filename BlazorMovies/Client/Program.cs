@@ -14,6 +14,7 @@ using BlazorMovies.Client.Repository;
 using Microsoft.AspNetCore.Components.Authorization;
 using System.Net.Mail;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+using BlazorMovies.Components;
 
 namespace BlazorMovies.Client
 {
@@ -61,6 +62,9 @@ namespace BlazorMovies.Client
 
             //File management (upload)
             services.AddFileReaderService(options => options.InitializeOnFirstCall = true);
+
+            //used to instantiate the ExampleImplementation for the DI
+            services.AddTransient<IExampleInterface, ExampleImplementation>();
 
             //IdentityServer4 authorization
             services.AddApiAuthorization();

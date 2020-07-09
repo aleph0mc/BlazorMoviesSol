@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="css/app.css" rel="stylesheet" />
     <link href="css/custom.css" rel="stylesheet" />
+    <!-- REFERENCE TO AN EXTERNAL PROJECT - IMPORTANT TO USE THE KEYWORD _content -->
+    <link href="_content/BlazorMovies.Components/styles.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -21,10 +23,13 @@
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
     </div>
-    <script src="_content/Microsoft.AspNetCore.Components.WebAssembly.Authentication/AuthenticationService.js"></script>    <script src="_framework/blazor.webassembly.js"></script>
+    <script src="_content/Microsoft.AspNetCore.Components.WebAssembly.Authentication/AuthenticationService.js"></script>
+    <script src="_framework/blazor.webassembly.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <!-- CUSTOMS JS FILES GOES HERE -->
     <script src="js/utilities.js"></script>
+    <!-- REFERENCE TO AN EXTERNAL PROJECT - IMPORTANT TO USE THE KEYWORD _content -->
+    <script src="_content/BlazorMovies.Components/exampleJsInterop.js"></script>
 </body>
 
 </html>
