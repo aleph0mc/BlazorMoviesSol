@@ -1,0 +1,10 @@
+﻿@page "/routable"
+
+<h3>Routable Component</h3>
+
+@* This is a cading paramenter which is wrapped in the App.razor file (check that file) *@
+The value is @Value
+
+@code {
+    [CascadingParameter(Name = "Value")] public string Value { get; set; }
+}
