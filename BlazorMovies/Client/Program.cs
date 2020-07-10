@@ -14,6 +14,8 @@ using BlazorMovies.Client.Repository;
 using Microsoft.AspNetCore.Components.Authorization;
 using System.Net.Mail;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+using Microsoft.JSInterop;
+using System.Globalization;
 
 namespace BlazorMovies.Client
 {
@@ -39,7 +41,15 @@ namespace BlazorMovies.Client
             _baseAddress = builder.HostEnvironment.BaseAddress;
             ConfigureServices(builder.Services);
 
-            await builder.Build().RunAsync();
+            //Get the localization from the localStorage, if any
+            var host = builder.Build();
+            //Get an instance of the IJSRuntime
+            var js = host.Services.GetRequiredService<IJSRuntime>();
+            var culture = await js.InvokeAsync<string>("getFromLocalStorage", "culture");
+            CultureInfo.DefaultThreadCurrentCulture = CultureInfo.DefaultThreadCurrentUICulture =
+                null == culture ? new CultureInfo("en-US") : new CultureInfo(culture);
+
+            await host.RunAsync();
         }
 
         private static void ConfigureServices(IServiceCollection services)
