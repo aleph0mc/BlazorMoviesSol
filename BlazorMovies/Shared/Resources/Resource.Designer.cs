@@ -70,6 +70,15 @@ namespace BlazorMovies.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Summary.
+        /// </summary>
+        public static string summary {
+            get {
+                return ResourceManager.GetString("summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Upcoming Releases.
         /// </summary>
         public static string upcomingreleases {

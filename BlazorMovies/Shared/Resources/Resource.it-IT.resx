@@ -120,6 +120,9 @@
   <data name="intheathers" xml:space="preserve">
     <value>Nei Cinema</value>
   </data>
+  <data name="summary" xml:space="preserve">
+    <value>Trama</value>
+  </data>
   <data name="upcomingreleases" xml:space="preserve">
     <value>In Arrivo</value>
   </data>

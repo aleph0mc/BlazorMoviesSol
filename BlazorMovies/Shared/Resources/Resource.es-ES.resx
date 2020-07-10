@@ -120,6 +120,9 @@
   <data name="intheathers" xml:space="preserve">
     <value>En Cines</value>
   </data>
+  <data name="summary" xml:space="preserve">
+    <value>Resumen</value>
+  </data>
   <data name="upcomingreleases" xml:space="preserve">
     <value>Proximos Estrrenos</value>
   </data>
