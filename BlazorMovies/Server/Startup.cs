@@ -18,6 +18,8 @@ using System.Text;
 using System;
 using Microsoft.AspNetCore.Authentication;
 using System.IdentityModel.Tokens.Jwt;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 
 namespace BlazorMovies.Server
 {
@@ -91,6 +93,9 @@ namespace BlazorMovies.Server
                 .AddIdentityServerJwt();
             // -----------------------------------------------------
 
+            //Use for localization
+            services.AddLocalization();
+
             //JWT token - authentication scheme
             //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             //    .AddJwtBearer(options =>
@@ -133,6 +138,26 @@ namespace BlazorMovies.Server
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            // Used for localization ----------------------------------
+            var supportedCulteres = new[]
+            {
+                new CultureInfo("en-US"),
+                new CultureInfo("it-IT"),
+                new CultureInfo("es-ES"),
+                new CultureInfo("ru-RU"),
+                new CultureInfo("it"),
+                new CultureInfo("en"),
+                new CultureInfo("es")
+            };
+
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                SupportedCultures = supportedCulteres,
+                SupportedUICultures = supportedCulteres,
+                DefaultRequestCulture = new RequestCulture("en-US")
+            });
+            //------------------------------------------------------------
 
             app.UseHttpsRedirection();
             app.UseBlazorFrameworkFiles();

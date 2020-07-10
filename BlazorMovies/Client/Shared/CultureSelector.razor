@@ -13,6 +13,8 @@
 
 @code {
 
+    [CascadingParameter] public AppMode AppMode { get; set; }
+
     private CultureInfo[] cultures = new[]
     {
         new CultureInfo("en-US"),
@@ -28,11 +30,25 @@
         get => CultureInfo.CurrentUICulture;
         set
         {
-            var jsInProcessRuntime = (IJSInProcessRuntime)js;
-            jsInProcessRuntime.InvokeVoid("setInLocalStorage", "culture", value.Name);
+            switch (AppMode)
+            {
+                case AppMode.WebAssembly:
+                    var jsInProcessRuntime = (IJSInProcessRuntime)js;
+                    jsInProcessRuntime.InvokeVoid("setInLocalStorage", "culture", value.Name);
 
-            //Force to Reload the current Uri in order to apply the selcted culture
-            nm.NavigateTo(nm.Uri, forceLoad: true);
+                    //Force to Reload the current Uri in order to apply the selcted culture
+                    nm.NavigateTo(nm.Uri, forceLoad: true);
+                    break;
+                case AppMode.ServerSide:
+                    var culture = value.Name;
+                    var uri = new Uri(nm.Uri).GetComponents(UriComponents.PathAndQuery, UriFormat.Unescaped);
+                    var query = $"?culture={Uri.EscapeDataString(culture)}&redirectionURI={Uri.EscapeDataString(uri)}";
+                    nm.NavigateTo($"/culture/SetCulture{query}", forceLoad: true);
+                    break;
+                default:
+                    break;
+            }
+
         }
     }
 }
