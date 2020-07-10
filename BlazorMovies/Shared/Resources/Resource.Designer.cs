@@ -70,6 +70,15 @@ namespace BlazorMovies.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This filed is required.
+        /// </summary>
+        public static string required {
+            get {
+                return ResourceManager.GetString("required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Summary.
         /// </summary>
         public static string summary {

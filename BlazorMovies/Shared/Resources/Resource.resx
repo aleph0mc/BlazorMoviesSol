@@ -120,6 +120,9 @@
   <data name="intheathers" xml:space="preserve">
     <value>In Theathers</value>
   </data>
+  <data name="required" xml:space="preserve">
+    <value>This filed is required</value>
+  </data>
   <data name="summary" xml:space="preserve">
     <value>Summary</value>
   </data>
