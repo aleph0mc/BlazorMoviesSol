@@ -4,6 +4,9 @@
 
 @inject IMoviesRepository repo
 
+@* Used for Localization *@ 
+@inject IStringLocalizer<Resource> localizer
+
 @*<AuthorizeView Roles="Admin">
     <Authorized>
         <p style="color: green;">User is authorized, @context.User.Identity.Name</p>
@@ -14,14 +17,14 @@
 </AuthorizeView>*@
 
 <div>
-    <h3>In theathers</h3>
+    <h3>@localizer["intheathers"]</h3>
     @*<MoviesListGen Movies="movies" />*@
 
     <MoviesList Movies="inTheaters" />
 </div>
 
 <div>
-    <h3>Upcoming Releases</h3>
+    <h3>@localizer["upcomingreleases"]</h3>
     @*<MoviesListGen Movies="movies" />*@
 
     <MoviesList Movies="upcomingReleases" />

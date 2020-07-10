@@ -45,6 +45,7 @@ namespace BlazorMovies.Client
         private static void ConfigureServices(IServiceCollection services)
         {
             services.AddOptions(); // used for auth. system
+            services.AddLocalization();
             services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(_baseAddress) });
             services.AddScoped<IHttpService, HttpService>();
             services.AddScoped<IGenreRepository, GenreRepository>();
