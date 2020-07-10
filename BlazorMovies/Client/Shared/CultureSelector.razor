@@ -29,7 +29,7 @@
             var jsInProcessRuntime = (IJSInProcessRuntime)js;
             jsInProcessRuntime.InvokeVoid("setInLocalStorage", "culture", value.Name);
 
-
+            //Force to Reload the current Uri in order to apply the selcted culture
             nm.NavigateTo(nm.Uri, forceLoad: true);
         }
     }
