@@ -23,7 +23,9 @@
 
     private CultureInfo culture
     {
-        get => CultureInfo.CurrentCulture;
+        //get => CultureInfo.CurrentCulture;
+        // This uses the default UI culture defined in MayLayout.razor file
+        get => CultureInfo.CurrentUICulture;
         set
         {
             var jsInProcessRuntime = (IJSInProcessRuntime)js;

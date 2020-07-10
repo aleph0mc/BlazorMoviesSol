@@ -1,5 +1,7 @@
 ﻿@inherits LayoutComponentBase
 
+@using System.Globalization
+
 @inject NavigationManager navigationManager
 @inject IJSRuntime js
 
@@ -35,6 +37,9 @@
 
     protected async override Task OnInitializedAsync()
     {
+        //Set the default UICulture to en-US
+        CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
+
         await js.InitializeInactivityTimer(DotNetObjectReference.Create(this));
         Console.WriteLine("Renew token timer started...");
     }
